@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/core/constants/app_colors/app_colors.dart';
+import 'package:flutter_template/core/util/responsive_util.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeShimmer extends StatelessWidget {
@@ -23,7 +25,7 @@ class HomeShimmer extends StatelessWidget {
                 width: 60,
                 height: 60,
                 decoration: const BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.surface,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -34,9 +36,13 @@ class HomeShimmer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(height: 16, width: 120, color: Colors.white),
+                    Container(
+                      height: ResponsiveHelper.scaleHeight(context, 16),
+                      width: ResponsiveHelper.scaleWidth(context, 120),
+                      color: AppColors.surface,
+                    ),
                     const SizedBox(height: 8),
-                    Container(height: 14, width: 80, color: Colors.white),
+                    Container(height: 14, width: 80, color: AppColors.surface),
                   ],
                 ),
               ),

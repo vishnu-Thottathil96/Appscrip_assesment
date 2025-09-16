@@ -5,6 +5,10 @@ class AppColors {
 
   static const Color gradientStart = Color(0xFF1E3C72); // deep blue
 
+  static Color white20 = Colors.white.withAlpha((0.2 * 255).round());
+  static Color white30 = Colors.white.withAlpha((0.3 * 255).round());
+  static Color white70 = Colors.white.withAlpha((0.7 * 255).round());
+
   // Primary Brand Colors
   static const Color primary = Color(0xFF1976D2); // blue
   static const Color secondary = Color(0xFF388E3C); // green

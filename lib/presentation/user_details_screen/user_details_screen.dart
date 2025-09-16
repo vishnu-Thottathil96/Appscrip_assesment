@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/core/constants/app_colors/app_colors.dart';
 import 'package:flutter_template/domain/models/user_model.dart';
+import 'package:flutter_template/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserDetailsPage extends StatelessWidget {
@@ -10,17 +11,30 @@ class UserDetailsPage extends StatelessWidget {
 
   const UserDetailsPage({super.key, required this.user});
 
-  void _openMap(String? lat, String? lng) async {
-    if (lat == null || lng == null) return;
-    final url = Uri.parse(
-      'https://www.google.com/maps/search/?api=1&query=$lat,$lng',
+  static Future<void> openMap(BuildContext context, String? latitude, String? longitude) async {
+  if (latitude == null || longitude == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Invalid location coordinates.")),
     );
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      debugPrint("Could not open the map.");
-    }
+    return;
   }
+
+  final Uri googleUrl = Uri.parse(
+      'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude');
+
+  try {
+    if (!await launchUrl(googleUrl, mode: LaunchMode.externalApplication)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text("Could not open Google Maps. Please install a browser or Maps app.")),
+      );
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Error opening Google Maps: $e")),
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +110,7 @@ class UserDetailsPage extends StatelessWidget {
                   const SizedBox(height: 12),
                   if (geo != null && geo.lat != null && geo.lng != null)
                     InkWell(
-                      onTap: () => _openMap(geo.lat, geo.lng),
+                      onTap: () => openMap(context,geo.lat, geo.lng),
                       borderRadius: BorderRadius.circular(8),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
